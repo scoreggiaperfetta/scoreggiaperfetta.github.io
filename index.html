@@ -3,106 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ScoreggiaPerfetta — TikTok callback</title>
+<title>ScoreggiaPerfetta — pubblicazione video per i libri di Cecco Ferro</title>
+<meta name="description" content="ScoreggiaPerfetta: strumento interno che genera i video promozionali dei libri umoristici di Cecco Ferro e li invia all'inbox TikTok dell'account del progetto.">
 <style>
-  :root { --giallo:#fec121; --rosso:#9e3113; --ambra:#feb01c; }
+  :root { color-scheme: dark; --giallo:#fec121; --ambra:#feb01c; --rosso:#9e3113; }
   * { box-sizing:border-box; }
-  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-         background:#14100c; color:#f6efe6; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-         padding:24px; }
-  .card { max-width:720px; width:100%; background:#1e1812; border:1px solid #3a2f22;
-          border-radius:16px; padding:28px; box-shadow:0 18px 60px rgba(0,0,0,.5); }
-  h1 { margin:0 0 6px; font-size:1.35rem; color:var(--giallo); }
-  p.sub { margin:0 0 20px; color:#c9bda9; }
-  .stato { display:inline-block; padding:4px 10px; border-radius:999px; font-size:.8rem;
-           background:var(--rosso); color:#fff; margin-bottom:18px; }
-  .ok { background:#2f6b3a; }
-  code, .val { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
-  .val { display:block; margin-top:6px; padding:12px; background:#120e0a; border:1px solid #3a2f22;
-         border-radius:10px; word-break:break-all; font-size:.85rem; color:var(--ambra); }
-  label { display:block; margin:16px 0 4px; font-weight:600; font-size:.9rem; color:#e8dcc8; }
-  button { margin-top:14px; background:var(--giallo); color:#241c10; border:0; border-radius:10px;
-           padding:10px 16px; font-weight:700; cursor:pointer; }
-  ol { color:#d8cdb9; padding-left:20px; }
-  .nascosto { display:none; }
-  footer { margin-top:22px; color:#8d8171; font-size:.8rem; }
+  body { margin:0; background:#14100c; color:#f6efe6;
+         font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  main { width:min(760px, 92vw); margin:0 auto; padding:56px 0 72px; }
+  .bollo { display:inline-block; font-size:13px; font-weight:700; padding:4px 10px; border-radius:999px;
+           background:var(--giallo); color:#241c10; margin-bottom:16px; }
+  h1 { font-size:30px; margin:0 0 6px; color:var(--giallo); }
+  p.sub { margin:0 0 28px; color:#c9bda9; font-size:17px; }
+  h2 { font-size:18px; margin:30px 0 8px; color:#f6efe6; }
+  p, li { color:#e3d9c9; }
+  ul { margin:8px 0 0 20px; padding:0; }
+  li { margin:4px 0; }
+  a { color:var(--ambra); }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; background:#241c10;
+         padding:1px 5px; border-radius:5px; color:var(--ambra); font-size:.92em; }
+  .nota { margin-top:34px; padding:16px 18px; background:#1e1812; border:1px solid #3a2f22; border-radius:12px;
+          color:#c9bda9; font-size:15px; }
+  footer { margin-top:40px; padding-top:18px; border-top:1px solid #33291d; color:#8d8171; font-size:14px; }
+  .pulsanti { margin-top:26px; display:flex; flex-wrap:wrap; gap:10px; }
+  .pulsanti a { display:inline-block; text-decoration:none; font-weight:600; padding:10px 16px; border-radius:10px;
+                background:#241c10; border:1px solid #3a2f22; color:var(--ambra); }
 </style>
 </head>
 <body>
-<div class="card">
-  <span id="stato" class="stato">verifico i parametri…</span>
-  <h1>ScoreggiaPerfetta · ritorno da TikTok</h1>
-  <p class="sub">Questa è la pagina di atterraggio del <code>redirect_uri</code> registrato sull'app
-  TikTok. Non fa nulla da sola: serve solo a mostrare il <code>code</code> che TikTok ha appena
-  consegnato, così lo incolli nel comando <code>scoreggia tiktok-auth</code>.</p>
+<main>
+  <span class="bollo">ScoreggiaPerfetta</span>
+  <h1>ScoreggiaPerfetta</h1>
+  <p class="sub">Strumento interno del progetto omonimo: genera i video promozionali dei libri umoristici
+  di <strong>Cecco Ferro</strong> e li invia come <em>bozza</em> all'inbox TikTok dell'account del
+  progetto, dove l'autore li rivede e li pubblica a mano.</p>
 
-  <div id="nessuno" class="nascosto">
-    <p>Nessun parametro <code>code</code> nell'indirizzo. Va bene: significa che hai aperto la pagina
-    a mano, oppure che TikTok ha restituito un <code>error</code>.</p>
-    <label>Indirizzo completo</label>
-    <span class="val" id="urlcompleto">—</span>
+  <h2>Cosa fa</h2>
+  <ul>
+    <li>Estrae le frasi più adatte dai libri del progetto e ne ricava brevi video verticali.</li>
+    <li>Autentica l'account del progetto con <strong>Login Kit</strong> di TikTok (una volta sola).</li>
+    <li>Carica ogni video con la <strong>Content Posting API</strong> (<code>video.upload</code>) nella
+        <strong>inbox</strong> dell'account: nessuna pubblicazione automatica.</li>
+    <li>Nessun dato di terzi, nessun cookie, nessuna analytics: è uno strumento a uso esclusivo del
+        titolare dell'account.</li>
+  </ul>
+
+  <h2>Come funziona</h2>
+  <ul>
+    <li>L'account del progetto autorizza lo strumento sulla pagina di consenso di TikTok.</li>
+    <li>TikTok rimanda al nostro <code>redirect_uri</code> registrato
+        (<a href="/tiktok/callback/">/tiktok/callback/</a>), che mostra il codice di autorizzazione.</li>
+    <li>Il video viene generato in locale e inviato all'inbox: l'autore lo approva e lo pubblica
+        dall'app TikTok.</li>
+  </ul>
+
+  <div class="pulsanti">
+    <a href="/privacy.html">Informativa sulla privacy</a>
+    <a href="/tos.html">Termini di servizio</a>
+    <a href="mailto:scoreggiaperfetta@gmail.com">Contatti</a>
   </div>
 
-  <div id="trovato" class="nascosto">
-    <label>URL completo da incollare in <code>scoreggia tiktok-auth</code></label>
-    <span class="val" id="url">—</span>
-    <button id="copia" type="button">Copia l'URL</button>
-    <label>Solo il <code>code</code></label>
-    <span class="val" id="solo">—</span>
-    <label><code>state</code> (deve coincidere con quello che ha inviato la pipeline)</label>
-    <span class="val" id="state">—</span>
-    <ol>
-      <li>Torna nel terminale dove hai lanciato <code>tiktok-auth</code>.</li>
-      <li>Incolla l'URL completo: il comando legge il <code>code</code> e salva il refresh token.</li>
-      <li>Il <code>code</code> vale una volta sola e scade in pochi minuti: non ricaricare questa pagina
-          e non riusarlo.</li>
-    </ol>
+  <div class="nota">
+    Pagina statica, senza cookie e senza tracciamenti. Per qualsiasi richiesta, inclusa la
+    cancellazione dei dati: <a href="mailto:scoreggiaperfetta@gmail.com">scoreggiaperfetta@gmail.com</a>.
   </div>
 
-  <div id="errore" class="nascosto">
-    <label>TikTok ha risposto con un errore</label>
-    <span class="val" id="err">—</span>
-    <span class="val" id="descr">—</span>
-  </div>
-
-  <footer>ScoreggiaPerfetta · pagina statica su GitHub Pages · nessun cookie, nessuna richiesta di rete.</footer>
-</div>
-
-<script>
-(function () {
-  var q = new URLSearchParams(window.location.search);
-  var completo = window.location.href;
-  var code = q.get("code"), state = q.get("state"), err = q.get("error");
-  var stato = document.getElementById("stato");
-  function mostra(id) { document.getElementById(id).classList.remove("nascosto"); }
-
-  document.getElementById("urlcompleto").textContent = completo;
-
-  if (code) {
-    stato.textContent = "code ricevuto";
-    stato.classList.add("ok");
-    document.getElementById("url").textContent = completo;
-    document.getElementById("solo").textContent = code;
-    document.getElementById("state").textContent = state || "(assente)";
-    mostra("trovato");
-    var b = document.getElementById("copia");
-    b.addEventListener("click", function () {
-      navigator.clipboard.writeText(completo).then(function () {
-        b.textContent = "Copiato ✓";
-      }, function () {
-        b.textContent = "Copia a mano l'URL qui sopra";
-      });
-    });
-  } else if (err) {
-    stato.textContent = "errore da TikTok";
-    document.getElementById("err").textContent = err;
-    document.getElementById("descr").textContent = q.get("error_description") || "";
-    mostra("errore");
-  } else {
-    stato.textContent = "in attesa del consenso TikTok";
-    mostra("nessuno");
-  }
-})();
-</script>
+  <footer>
+    ScoreggiaPerfetta · ultimo aggiornamento: 25 settembre 2026 ·
+    <a href="/privacy.html">Privacy</a> ·
+    <a href="/tos.html">Termini</a>
+  </footer>
+</main>
 </body>
 </html>
