@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ScoreggiaPerfetta — pubblicazione video per i libri di Cecco Ferro</title>
 <meta name="description" content="ScoreggiaPerfetta: strumento interno che genera i video promozionali dei libri umoristici di Cecco Ferro e li invia all'inbox TikTok dell'account del progetto.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <style>
   :root { color-scheme: dark; --giallo:#fec121; --ambra:#feb01c; --rosso:#9e3113; }
   * { box-sizing:border-box; }
@@ -28,12 +32,19 @@
   .pulsanti { margin-top:26px; display:flex; flex-wrap:wrap; gap:10px; }
   .pulsanti a { display:inline-block; text-decoration:none; font-weight:600; padding:10px 16px; border-radius:10px;
                 background:#241c10; border:1px solid #3a2f22; color:var(--ambra); }
+  .intestazione { display:flex; align-items:center; gap:18px; margin-bottom:14px; }
+  .intestazione img { flex:0 0 auto; border-radius:20px; }
 </style>
 </head>
 <body>
 <main>
-  <span class="bollo">ScoreggiaPerfetta</span>
-  <h1>ScoreggiaPerfetta</h1>
+  <div class="intestazione">
+    <img src="/favicon-192x192.png" alt="Icona dell'app ScoreggiaPerfetta" width="72" height="72">
+    <div>
+      <span class="bollo">ScoreggiaPerfetta</span>
+      <h1>ScoreggiaPerfetta</h1>
+    </div>
+  </div>
   <p class="sub">Strumento interno del progetto omonimo: genera i video promozionali dei libri umoristici
   di <strong>Cecco Ferro</strong> e li invia come <em>bozza</em> all'inbox TikTok dell'account del
   progetto, dove l'autore li rivede e li pubblica a mano.</p>
